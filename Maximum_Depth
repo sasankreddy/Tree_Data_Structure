@@ -1,0 +1,51 @@
+## LeetCode EASY
+
+# Definition for a binary tree node.
+from collections import deque
+from typing import Optional
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        """
+        Returns the maximum depth of a binary tree using a level-order (BFS) approach.
+        
+        Approach:
+        - We can calculate the maximum depth by performing a **level-order traversal** (BFS).
+        - We use a queue to traverse all nodes level by level.
+        - For each level, we increment a counter to track the depth.
+        - The number of levels traversed will be the maximum depth of the tree.
+        
+        Returns the maximum depth of the binary tree.
+        """
+        if root is None:
+            return 0  # If the tree is empty, the maximum depth is 0
+        
+        queue = deque()  # Queue to store nodes for level-order traversal
+        size = 0  # Variable to track the depth (number of levels)
+        queue.append(root)  # Start with the root node
+        
+        # Perform BFS, level by level
+        while queue:
+            size += 1  # Each iteration represents one level in the tree
+            for i in range(len(queue)):
+                node = queue.popleft()  # Remove node from the front of the queue
+                if node.left:
+                    queue.append(node.left)  # Add left child to the queue
+                if node.right:
+                    queue.append(node.right)  # Add right child to the queue
+        
+        return size  # Return the depth, which is the number of levels traversed
+
+
+# Time Complexity: O(n)
+# - We visit every node exactly once in the level-order traversal.
+# - n is the number of nodes in the binary tree.
+
+# Space Complexity: O(n)
+# - The space used by the queue is proportional to the number of nodes at the widest level, which can be O(n) in the worst case (e.g., a complete binary tree).
